@@ -1,6 +1,7 @@
 asgiref==3.11.1
 beautifulsoup4==4.14.3
 Django==4.2.30
+django-bootstrap5==26.2
 django-lucide-icons==0.2.2
 gunicorn==26.0.0
 packaging==26.2

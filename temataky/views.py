@@ -1,3 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def temataky_index(request):
+	return render(request, "temataky/index.html")

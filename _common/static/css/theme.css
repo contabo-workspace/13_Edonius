@@ -1,0 +1,54 @@
+/* ============================================================
+   Edonius – barevná paleta pro školní prostředí
+   Modré + zelené tóny pro vzdělávání
+   ============================================================ */
+
+:root {
+    /* --- Hlavní barvy – školní prostředí --- */
+    --color-primary:        #3b82f6;
+    --color-primary-hover:  #2563eb;
+    --color-secondary:      #10b981;
+    --color-accent:         #f59e0b;
+
+    /* --- Stavové barvy --- */
+    --color-success:        #10b981;
+    --color-warning:        #f59e0b;
+    --color-danger:         #ef4444;
+    --color-info:           #0ea5e9;
+
+    /* --- Neutrální barvy --- */
+    --color-bg:             #f1f5f9;
+    --color-surface:        #ffffff;
+    --color-border:         #e2e8f0;
+    --color-text:           #0f172a;
+    --color-text-muted:     #64748b;
+    
+    /* --- Tmavý sidebar --- */
+    --color-sidebar-bg:     #1e293b;
+    --color-sidebar-text:   #f1f5f9;
+    --color-sidebar-hover:  #334155;
+
+    /* --- Barevná mapa sekcí --- */
+    --section-dashboard:    #2563eb;
+    --section-maturity:     #f59e0b;
+    --section-temataky:     #16a34a;
+    --section-vykazy:       #e11d48;
+    --section-imp:          var(--section-maturity);
+    --section-prakticke:    var(--section-maturity);
+    --section-rozpisy:      var(--section-maturity);
+
+    /* --- Bootstrap 5 přepsání přes vlastní CSS proměnné --- */
+    --bs-primary:           var(--color-primary);
+    --bs-secondary:         var(--color-secondary);
+    --bs-success:           var(--color-success);
+    --bs-warning:           var(--color-warning);
+    --bs-danger:            var(--color-danger);
+    --bs-info:              var(--color-info);
+    --bs-body-bg:           var(--color-bg);
+    --bs-body-color:        var(--color-text);
+    --bs-border-color:      var(--color-border);
+
+    /* Bootstrap používá pro barvu odkazů tyto proměnné, ne --bs-primary */
+    --bs-link-color:        var(--color-primary);
+    --bs-link-hover-color:  var(--color-primary-hover);
+}

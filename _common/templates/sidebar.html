@@ -1,0 +1,31 @@
+{% load lucide_tags %}
+<ul class="sidebar-nav pt-3">
+    <li>
+        <a href="{% url 'dashboard:dashboard' %}" class="section-dashboard">
+            {% lucide "layout-dashboard" class="me-2" %} Nástěnka</a>
+    </li>
+    <li>
+        <button class="sidebar-toggle section-maturity d-flex align-items-center justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#maturityMenu" aria-expanded="false" aria-controls="maturityMenu">
+            <span>{% lucide "graduation-cap" class="me-2" %} Maturity</span>
+            <span class="d-inline-flex ms-2 sidebar-chevron" aria-hidden="true">{% lucide "chevron-down" %}</span>
+        </button>
+        <div class="collapse" id="maturityMenu">
+            <ul class="sidebar-subnav list-group list-group-flush mt-2 overflow-hidden bg-light">
+                <li class="list-group-item p-0">
+                    <a href="{% url 'imp:maturity' %}" class="section-maturity d-block px-3 py-2">
+                        {% lucide "scroll-text" class="me-2" %} IMP</a>
+                </li>
+                <li class="list-group-item p-0">
+                    <a href="{% url 'imp:prakticke' %}" class="section-maturity d-block px-3 py-2">
+                        {% lucide "monitor-cog" class="me-2" %} Praktické maturity</a>
+                </li>
+                <li class="list-group-item p-0">
+                    <a href="{% url 'imp:rozpisy' %}" class="section-maturity d-block px-3 py-2">
+                        {% lucide "calendar-range" class="me-2" %} Rozpisy</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li><a href="{% url 'temataky:temataky' %}" class="section-temataky">{% lucide "book-open" class="me-2" %} Tématické plány</a></li>
+    <li><a href="{% url 'vykazy:vykazy' %}" class="section-vykazy">{% lucide "clock" class="me-2" %} Výkazy</a></li>
+</ul>

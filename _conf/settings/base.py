@@ -11,7 +11,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap5',
+    'django_lucide_icons',
+    'dashboard',
+    'imp',
+    'temataky',
+    'vykazy',
+
 ]
+
+LUCIDE_ICONS_DIR = "static/fonts/lucide_icons"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -28,7 +37,7 @@ ROOT_URLCONF = '_conf.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / '_common' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -1,0 +1,140 @@
+/* Přepsání Bootstrap btn-primary */
+.btn-primary {
+    --bs-btn-bg:           var(--color-primary);
+    --bs-btn-border-color: var(--color-primary);
+    --bs-btn-hover-bg:     var(--color-primary-hover);
+    --bs-btn-hover-border-color: var(--color-primary-hover);
+    --bs-btn-active-bg:    var(--color-primary-hover);
+}
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: var(--color-primary);
+}
+
+main {
+    background-color: white;
+}
+
+.sidebar {
+    width: 280px;
+    background-color: var(--color-sidebar-bg);
+    color: var(--color-sidebar-text);
+    border-right: 1px solid var(--color-border);
+}
+
+.sidebar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar li + li {
+    margin-top: 0.5rem;
+}
+
+.sidebar a,
+.sidebar a:link,
+.sidebar a:visited,
+.sidebar a:hover,
+.sidebar a:active {
+    display: block;
+    color: var(--color-sidebar-text);
+    text-decoration: none;
+    padding: 0.5rem 0.75rem;
+}
+
+.sidebar-toggle {
+    width: 100%;
+    text-align: left;
+    border: 0;
+    background: transparent;
+    color: var(--color-sidebar-text);
+    padding: 0.5rem 0.75rem;
+}
+
+.sidebar-toggle:hover,
+.sidebar-toggle:focus-visible {
+    background-color: var(--color-sidebar-hover);
+}
+
+.sidebar-subnav {
+    padding-left: 0.75rem;
+}
+
+.sidebar-subnav > li + li {
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.sidebar-subnav a,
+.sidebar-subnav a:link,
+.sidebar-subnav a:visited,
+.sidebar-subnav a:hover,
+.sidebar-subnav a:active {
+    color: var(--color-text);
+}
+
+.sidebar-subnav a {
+    border-left: 3px solid transparent;
+}
+
+.sidebar-subnav li {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-top: 0px !important;
+}
+
+.sidebar-subnav a:hover,
+.sidebar-subnav a:focus-visible {
+    background-color: rgba(59, 130, 246, 0.08);
+    border-left-color: var(--color-primary);
+    color: white;
+}
+
+.sidebar .section-dashboard svg { color: var(--section-dashboard); }
+.sidebar .section-maturity svg { color: var(--section-maturity); }
+.sidebar .section-temataky svg { color: var(--section-temataky); }
+.sidebar .section-vykazy svg { color: var(--section-vykazy); }
+
+.sidebar-subnav .section-maturity:hover,
+.sidebar-subnav .section-maturity:focus-visible {
+    border-left-color: var(--section-maturity);
+}
+
+.section-heading {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-heading svg {
+    width: 2.2rem;
+    height: 2.2rem;
+}
+
+.section-heading.section-dashboard svg { color: var(--section-dashboard); }
+.section-heading.section-maturity svg { color: var(--section-maturity); }
+.section-heading.section-temataky svg { color: var(--section-temataky); }
+.section-heading.section-vykazy svg { color: var(--section-vykazy); }
+
+.sidebar-chevron svg {
+    width: 0.9rem;
+    height: 0.9rem;
+    transition: transform 0.2s ease;
+}
+
+.sidebar-toggle[aria-expanded="true"] .sidebar-chevron svg {
+    transform: rotate(180deg);
+}
+
+.sidebar a:hover,
+.sidebar a:focus-visible {
+    background-color: var(--color-sidebar-hover);
+}
+
+svg {
+    width: 1em;
+}

@@ -1,5 +1,6 @@
 {% load static %}
 {% load bootstrap5 %}
+{% load lucide_tags %}
 <!DOCTYPE html>
 <html lang="cs">
     <head>
@@ -15,19 +16,59 @@
             {% include 'navbar.html' %}
         </header>
 
+        {% if request.user.is_authenticated and school_year_override_active and effective_school_year %}
+            <div class="school-year-warning-bar" role="status" aria-live="polite">
+                <div class="container-fluid d-flex align-items-center gap-2 py-2">
+                    {% lucide "message-square-warning" style="me-2" %}<strong>Upozornění:</strong>
+                    <span>
+                        Pracujete ve školním roce <strong>{{ effective_school_year.name }}</strong>
+                    </span>
+                </div>
+            </div>
+        {% endif %}
+
         <div class="d-flex flex-grow-1">
-            <aside class="sidebar">
-                {% include "sidebar.html" %}
-            </aside>
+            {% if request.user.is_authenticated %}
+                <aside class="sidebar">
+                    {% include "sidebar.html" %}
+                </aside>
+            {% endif %}
             <main class="flex-grow-1">
-                {% block content %}
-                
-                {% endblock %}
+                {% if messages %}
+                    <div class="container-fluid pt-3">
+                        {% for message in messages %}
+                            {% with level=message.level_tag|default:'info' %}
+                                <div class="alert {% if level == 'error' %}alert-danger{% else %}alert-{{ level }}{% endif %} app-message-alert mb-3" role="alert">
+                                    <span class="app-message-icon" aria-hidden="true">
+                                        {% if level == 'success' %}
+                                            {% lucide "circle-check" %}
+                                        {% elif level == 'warning' %}
+                                            {% lucide "triangle-alert" %}
+                                        {% elif level == 'error' %}
+                                            {% lucide "octagon-alert" %}
+                                        {% else %}
+                                            {% lucide "info" %}
+                                        {% endif %}
+                                    </span>
+                                    <div class="app-message-text">{{ message }}</div>
+                                </div>
+                            {% endwith %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="px-3">
+                    {% block content %}
+                    
+                    {% endblock %}
+                </div>
             </main>
         </div>
 
-        <footer class="py-3 bg-light text-center text-muted mt-auto">
+        <footer class="py-3 bg-dark text-center text-muted mt-auto">
             <p>&copy; 2026 Edonius. Všechna práva vyhrazena.</p>
         </footer>
+
+        {% block extra_scripts %}
+        {% endblock %}
     </body>
 </html>

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load lucide_tags %}
+{% load static %}
+
+{% block title %}Nastavení | Edonius{% endblock %}
+
+{% block content %}
+<section class="container-fluid py-4 crm-settings-shell" data-open-photo-modal="{% if open_photo_modal %}1{% else %}0{% endif %}">
+    <div class="crm-profile-hero mb-4">
+        <div class="row g-4 align-items-center">
+            <div class="col-12 col-lg-auto text-center">
+                <button type="button" class="crm-avatar-button {% if photo_recently_saved %}is-saved{% endif %}" data-bs-toggle="modal" data-bs-target="#profilePhotoModal" title="Upravit profilovou fotku">
+                    {% if profile.photo %}
+                        <img src="{{ profile.photo.url }}" alt="Profilová fotka" class="crm-avatar">
+                    {% else %}
+                        <div class="crm-avatar-placeholder">
+                            {% lucide "user" %}
+                        </div>
+                    {% endif %}
+                    <span class="crm-avatar-overlay">Klikni pro
+                        změnu fotky</span>
+                </button>
+                <span class="crm-avatar-saved-pill {% if photo_recently_saved %}show{% endif %}" aria-live="polite">Uloženo</span>
+            </div>
+
+            <div class="col-12 col-lg">
+                <h1 class="h2 mb-1">{{ display_name }}</h1>
+                <p class="crm-subtle text-light mb-0">Správa účtu a zabezpečení</p>
+                <div class="crm-meta-row">
+                    <span class="crm-chip">{{ request.user.username }}</span>
+                    <span class="crm-chip">{{ request.user.email|default:"bez e-mailu" }}</span>
+                    <span class="crm-chip">Zkratka: {{ user_shortcut }}</span>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-auto">
+                <div class="crm-actions-grid">
+                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#profilePhotoModal">Upravit fotku</button>
+                    <a href="{% url 'dashboard:settings-password' %}" class="btn btn-outline-light text-white">Změnit heslo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-12 col-xl-8">
+            <div class="card crm-info-card h-100">
+                <div class="card-body">
+                    <h2 class="h5 mb-3">Profil účtu</h2>
+                    <dl class="crm-kv">
+                        <div class="row">
+                            <dt class="col-sm-4">Jméno</dt>
+                            <dd class="col-sm-8">{{ display_name }}</dd>
+                        </div>
+                        <div class="row">
+                            <dt class="col-sm-4">Uživatelské jméno</dt>
+                            <dd class="col-sm-8">{{ request.user.username }}</dd>
+                        </div>
+                        <div class="row">
+                            <dt class="col-sm-4">E-mail</dt>
+                            <dd class="col-sm-8">{{ request.user.email|default:"-" }}</dd>
+                        </div>
+                        <div class="row">
+                            <dt class="col-sm-4">Zkratka učitele</dt>
+                            <dd class="col-sm-8">{{ user_shortcut }}</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-4">
+            <div class="card crm-action-card mb-4">
+                <div class="card-body">
+                    <h2 class="h6 mb-2">Profilová fotka</h2>
+                    <p class="crm-subtle mb-3">Doporučení: čtvercová fotka s obličejem, minimálně 400x400 px.</p>
+                    <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#profilePhotoModal">
+                        Nastavit fotku
+                    </button>
+                </div>
+            </div>
+
+            <div class="card crm-action-card">
+                <div class="card-body">
+                    <h2 class="h6 mb-2">Zabezpečení účtu</h2>
+                    <p class="crm-subtle mb-3">Měnit můžeš jen heslo a profilovou fotku. Ostatní údaje jsou zamčené.</p>
+                    <a href="{% url 'dashboard:settings-password' %}" class="btn btn-outline-primary w-100">Změnit heslo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "modals/profile_photo_modal.html" %}
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/settings-photo.js' %}" defer></script>
+{% endblock %}

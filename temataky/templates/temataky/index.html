@@ -1,11 +1,26 @@
 {% extends 'base.html' %}
 {% load lucide_tags %}
 
-{% block title %}Témaťáky | Edonius{% endblock %}
+{% block title %}Tématické plány | Edonius{% endblock %}
 
 {% block content %}
 <section class="container-fluid py-4">
-    <h1 class="section-heading section-temataky">{% lucide "book-open" %}Témaťáky</h1>
-    <p>Přehled tematických okruhů a příprav.</p>
+    <div class="d-flex align-items-center gap-2 mb-3 flex-wrap">
+        <h1 class="section-heading section-temataky mb-0">{% lucide "book-open" %}Tématické plány</h1>
+        <button
+            type="button"
+            class="ms-5 btn btn-primary d-inline-flex align-items-center gap-2"
+            title="Vytvořit nový tematický plán"
+            onclick="window.location.href='{% url 'temataky:temataky-create' %}'"
+        >
+            {% lucide "plus" %}
+            <span>Vytvořit tematický plán</span>
+        </button>
+        {% if can_manage_all %}
+            <a href="{% url 'temataky:temataky-garant-overview' %}" class="btn btn-outline-secondary">Přehled tematických plánů</a>
+        {% endif %}
+    </div>
+
+    {% include "temataky/includes/plan_table.html" with plany=plany can_manage_all=can_manage_all empty_message="Momentálně nemáš dostupný žádný tematický plán." %}
 </section>
 {% endblock %}

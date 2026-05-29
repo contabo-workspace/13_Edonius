@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edonius - Vizualni schema databaze</title>
+  <style>
+    :root {
+      --bg: #f7f6f2;
+      --bg2: #ece9dd;
+      --ink: #1f2a37;
+      --muted: #55606f;
+      --core: #2f6f7e;
+      --tema: #8b5a3c;
+      --auth: #5f4b8b;
+      --line: #243447;
+      --card: #ffffff;
+      --border: #d4d7dd;
+      --shadow: 0 12px 30px rgba(20, 28, 40, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% -5%, #fefaf0 0 20%, transparent 45%),
+        radial-gradient(circle at 100% 0, #e7f3ef 0 25%, transparent 50%),
+        linear-gradient(160deg, var(--bg) 0%, var(--bg2) 100%);
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 20px 18px 8px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      letter-spacing: 0.02em;
+    }
+
+    .sub {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      padding: 10px 18px 0;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+      transform: translateY(1px);
+    }
+
+    .board-wrap {
+      padding: 14px 12px 24px;
+    }
+
+    .board {
+      position: relative;
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.45);
+      box-shadow: var(--shadow);
+      min-height: 70vh;
+    }
+
+    .stage {
+      position: relative;
+      width: 2200px;
+      height: 1200px;
+      margin: 0 auto;
+    }
+
+    svg#links {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .entity {
+      position: absolute;
+      width: 280px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .entity .head {
+      padding: 10px 12px;
+      font-weight: 700;
+      color: #fff;
+      font-size: 0.95rem;
+      letter-spacing: 0.01em;
+    }
+
+    .entity.core .head { background: var(--core); }
+    .entity.tema .head { background: var(--tema); }
+    .entity.auth .head { background: var(--auth); }
+
+    .entity .body {
+      padding: 10px 12px;
+      font-size: 0.84rem;
+      line-height: 1.45;
+      color: #2f3a48;
+    }
+
+    .entity .field {
+      border-bottom: 1px dashed #edf0f4;
+      padding: 2px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .entity .field:last-child { border-bottom: none; }
+
+    .kind {
+      display: inline-block;
+      font-size: 0.74rem;
+      color: #6e7a8a;
+      margin-left: 6px;
+    }
+
+    .hint {
+      padding: 0 18px 16px;
+      font-size: 0.82rem;
+      color: #6a7483;
+    }
+
+    @media (max-width: 1100px) {
+      .stage {
+        width: 1900px;
+        height: 1280px;
+      }
+      .entity { width: 260px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ER schema aktualni databaze (zjednodusene)</h1>
+    <div class="sub">Zdroj: Django modely core + temataky. Vazby jsou 1:N, ManyToMany je pres spojovaci tabulku.</div>
+  </header>
+
+  <div class="legend">
+    <span><span class="dot" style="background:#2f6f7e"></span>core</span>
+    <span><span class="dot" style="background:#8b5a3c"></span>temataky</span>
+    <span><span class="dot" style="background:#5f4b8b"></span>auth</span>
+    <span>plna cara = ForeignKey</span>
+    <span>prerusovana cara = ManyToMany spojeni</span>
+  </div>
+
+  <div class="board-wrap">
+    <div class="board">
+      <div class="stage" id="stage">
+        <svg id="links" viewBox="0 0 2200 1200" preserveAspectRatio="none">
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L10,4 L0,8 z" fill="#243447"></path>
+            </marker>
+          </defs>
+        </svg>
+
+        <section class="entity core" id="SchoolYear" style="left:70px; top:80px;">
+          <div class="head">SchoolYear</div>
+          <div class="body">
+            <div class="field">id <span class="kind">PK</span></div>
+            <div class="field">name (YYYY/YY) <span class="kind">unique</span></div>
+          </div>
+        </section>
+
+        <section class="entity core" id="SchoolClass" style="left:380px; top:50px;">
+          <div class="head">SchoolClass</div>
+          <div class="body">
+            <div class="field">id <span class="kind">PK</span></div>
+            <div class="field">school_year_id <span class="kind">FK</span></div>
+            <div class="field">name</div>
+            <div class="field">is_active</div>
+            <div class="field">unique(school_year, name)</div>
+          </div>
+        </section>
+
+        <section class="entity core" id="StudyField" style="left:70px; top:330px;">
+          <div class="head">StudyField</div>
+          <div class="body">
+            <div class="field">id <span class="kind">PK</span></div>
+            <div class="field">cislo_oboru <span class="kind">unique</span></div>
+            <div class="field">zkratka <span class="kind">unique</span></div>
+            <div class="field">nazev</div>
+          </div>
+        </section>
+
+        <section class="entity core" id="StudyFieldInSchoolYear" style="left:380px; top:300px;">
+          <div class="head">StudyFieldInSchoolYear</div>
+          <div class="body">
+            <div class="field">id <span class="kind">PK</span></div>
+            <div class="field">obor_id <span class="kind">FK</span></div>
+            <div class="field">school_year_id <span class="kind">FK</span></div>
+            <div class="field">nazev, zkratka</div>
+            <div class="field">unique(obor, school_year)</div>
+            <div class="field">unique(school_year, zkratka)</div>
+          </div>
+        </section>
+
+        <section class="entity core" id="Subject" style="left:70px; top:580px;">
+          <div class="head">Subject</div>
+          <div class="body">
+            <div class="field">id <span class="kind">PK</span></div>
+            <div class="field">code <span class="kind">unique</span></div>
+            <div class="field">name</div>
+          </div>
+        </section>
+
+        <section class="entity core" id="SubjectInSchoolYear" style="left:380px; top:540px;">
+          <div class="head">SubjectInSchoolYear</div>
+          <div class="body">
+            <div class="field">id <span class="kind">PK</span></div>
+            <div class="field">subject_id <span class="kind">FK</span></div>
+            <div class="field">school_year_id <span class="kind">FK</span></div>
+            <div class="field">name, abbreviation</div>
+            <div class="field">unique(subject, school_year)</div>
+          </div>
+        </section>
+
+        <section class="entity core" id="SubjectClassInSchoolYear" style="left:720px; top:520px;">
+          <div class="head">SubjectClassInSchoolYear</div>
+          <div class="body">
+            <div class="field">id <span class="kind">PK</span></div>
+            <div class="field">predmet_ve_skolnim_roce_id <span class="kind">FK</span></div>
+            <div class="field">trida_id <span class="kind">FK</span></div>
+            <div class="field">is_active</div>
+            <div class="field">unique(predmet_ve_skolnim_roce, trida)</div>
+          </div>
+        </section>
+
+        <section class="entity core" id="TeachingGroupInSchoolYear" style="left:720px; top:220px;">
+          <div class="head">TeachingGroupInSchoolYear</div>
+          <div class="body">
+            <div class="field">id <span class="kind">PK</span></div>
+            <div class="field">school_year_id <span class="kind">FK</span></div>
+            <div class="field">name, code</div>
+            <div class="field">unique(school_year, name)</div>
+          </div>
+        </section>
+
+        <section class="entity auth" id="User" style="left:1090px; top:90px;">
+          <div class="head">auth_user (zjednodusene)</div>
+          <div class="body">
+            <div class="field">id <span class="kind">PK</span></div>
+            <div class="field">username</div>
+            <div class="field">first_name, last_name</div>
+            <div class="field">is_staff, is_active</div>
+          </div>
+        </section>
+
+        <section class="entity core" id="TeacherAssignment" style="left:1090px; top:350px;">
+          <div class="head">TeacherAssignment</div>
+          <div class="body">
+            <div class="field">id <span class="kind">PK</span></div>
+            <div class="field">teacher_id <span class="kind">FK</span></div>
+            <div class="field">subject_class_in_school_year_id <span class="kind">FK</span></div>
+            <div class="field">group_in_school_year_id <span class="kind">FK nullable</span></div>
+            <div class="field">is_active</div>
+            <div class="field">unique(teacher, subject_class, group)</div>
+          </div>
+        </section>
+
+        <section class="entity tema" id="TematickyPlan" style="left:1460px; top:520px;">
+          <div class="head">TematickyPlan</div>
+          <div class="body">
+            <div class="field">id <span class="kind">PK</span></div>
+            <div class="field">obor_ve_skolnim_roce_id <span class="kind">FK</span></div>
+            <div class="field">predmet_ve_skolnim_roce_id <span class="kind">FK</span></div>
+            <div class="field">nazev, popis, is_aktivni</div>
+            <div class="field">created_at, updated_at</div>
+            <div class="field">unique(obor, predmet, nazev)</div>
+          </div>
+        </section>
+
+        <section class="entity tema" id="TematickyPlanUcitel" style="left:1460px; top:250px;">
+          <div class="head">TematickyPlan_ucitele (M2M)</div>
+          <div class="body">
+            <div class="field">id <span class="kind">PK</span></div>
+            <div class="field">tematickyplan_id <span class="kind">FK</span></div>
+            <div class="field">user_id <span class="kind">FK</span></div>
+            <div class="field">Django join table pro ucitele</div>
+          </div>
+        </section>
+
+        <section class="entity tema" id="TematickyPlanTrida" style="left:1780px; top:520px;">
+          <div class="head">TematickyPlanTrida</div>
+          <div class="body">
+            <div class="field">id <span class="kind">PK</span></div>
+            <div class="field">tematicky_plan_id <span class="kind">FK</span></div>
+            <div class="field">trida_id <span class="kind">FK</span></div>
+            <div class="field">unique(tematicky_plan, trida)</div>
+          </div>
+        </section>
+
+        <section class="entity tema" id="TematickeTema" style="left:1780px; top:760px;">
+          <div class="head">TematickeTema</div>
+          <div class="body">
+            <div class="field">id <span class="kind">PK</span></div>
+            <div class="field">tematicky_plan_id <span class="kind">FK</span></div>
+            <div class="field">poradi, nazev, hodiny</div>
+            <div class="field">unique(tematicky_plan, poradi)</div>
+          </div>
+        </section>
+
+        <section class="entity tema" id="TemaBod" style="left:1780px; top:980px;">
+          <div class="head">TemaBod</div>
+          <div class="body">
+            <div class="field">id <span class="kind">PK</span></div>
+            <div class="field">tema_id <span class="kind">FK</span></div>
+            <div class="field">poradi, nazev, hodiny</div>
+            <div class="field">unique(tema, poradi)</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="hint">
+    Poznamka: schema je zamerne prakticke a citelne, ne 100% SQL dump. Obsahuje hlavni tabulky a vazby z aktualnich modelu.
+  </div>
+
+  <script>
+    (function () {
+      const stage = document.getElementById('stage');
+      const svg = document.getElementById('links');
+
+      const links = [
+        ['SchoolClass', 'SchoolYear', 'solid'],
+        ['StudyFieldInSchoolYear', 'SchoolYear', 'solid'],
+        ['StudyFieldInSchoolYear', 'StudyField', 'solid'],
+        ['SubjectInSchoolYear', 'SchoolYear', 'solid'],
+        ['SubjectInSchoolYear', 'Subject', 'solid'],
+        ['SubjectClassInSchoolYear', 'SubjectInSchoolYear', 'solid'],
+        ['SubjectClassInSchoolYear', 'SchoolClass', 'solid'],
+        ['TeachingGroupInSchoolYear', 'SchoolYear', 'solid'],
+        ['TeacherAssignment', 'User', 'solid'],
+        ['TeacherAssignment', 'SubjectClassInSchoolYear', 'solid'],
+        ['TeacherAssignment', 'TeachingGroupInSchoolYear', 'solid'],
+        ['TematickyPlan', 'StudyFieldInSchoolYear', 'solid'],
+        ['TematickyPlan', 'SubjectInSchoolYear', 'solid'],
+        ['TematickyPlanUcitel', 'TematickyPlan', 'dashed'],
+        ['TematickyPlanUcitel', 'User', 'dashed'],
+        ['TematickyPlanTrida', 'TematickyPlan', 'solid'],
+        ['TematickyPlanTrida', 'SchoolClass', 'solid'],
+        ['TematickeTema', 'TematickyPlan', 'solid'],
+        ['TemaBod', 'TematickeTema', 'solid']
+      ];
+
+      function centerRight(el) {
+        return {
+          x: el.offsetLeft + el.offsetWidth,
+          y: el.offsetTop + el.offsetHeight / 2
+        };
+      }
+
+      function centerLeft(el) {
+        return {
+          x: el.offsetLeft,
+          y: el.offsetTop + el.offsetHeight / 2
+        };
+      }
+
+      function centerTop(el) {
+        return {
+          x: el.offsetLeft + el.offsetWidth / 2,
+          y: el.offsetTop
+        };
+      }
+
+      function centerBottom(el) {
+        return {
+          x: el.offsetLeft + el.offsetWidth / 2,
+          y: el.offsetTop + el.offsetHeight
+        };
+      }
+
+      function pickAnchors(a, b) {
+        const ar = centerRight(a);
+        const al = centerLeft(a);
+        const at = centerTop(a);
+        const ab = centerBottom(a);
+
+        const br = centerRight(b);
+        const bl = centerLeft(b);
+        const bt = centerTop(b);
+        const bb = centerBottom(b);
+
+        const variants = [
+          [ar, bl],
+          [al, br],
+          [ab, bt],
+          [at, bb]
+        ];
+
+        let best = variants[0];
+        let bestDist = Number.MAX_VALUE;
+
+        for (const pair of variants) {
+          const dx = pair[0].x - pair[1].x;
+          const dy = pair[0].y - pair[1].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < bestDist) {
+            bestDist = dist;
+            best = pair;
+          }
+        }
+        return best;
+      }
+
+      function pathD(p1, p2) {
+        const dx = Math.abs(p2.x - p1.x);
+        const curve = Math.max(40, Math.min(180, dx * 0.45));
+        const c1x = p1.x + (p2.x >= p1.x ? curve : -curve);
+        const c2x = p2.x - (p2.x >= p1.x ? curve : -curve);
+        return 'M ' + p1.x + ' ' + p1.y + ' C ' + c1x + ' ' + p1.y + ', ' + c2x + ' ' + p2.y + ', ' + p2.x + ' ' + p2.y;
+      }
+
+      function draw() {
+        svg.querySelectorAll('path.link').forEach(function (el) { el.remove(); });
+
+        links.forEach(function (item) {
+          const from = document.getElementById(item[0]);
+          const to = document.getElementById(item[1]);
+          const style = item[2] || 'solid';
+          if (!from || !to) {
+            return;
+          }
+
+          const anchors = pickAnchors(from, to);
+          const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          p.setAttribute('class', 'link');
+          p.setAttribute('d', pathD(anchors[0], anchors[1]));
+          p.setAttribute('fill', 'none');
+          p.setAttribute('stroke', '#243447');
+          p.setAttribute('stroke-width', '1.7');
+          p.setAttribute('opacity', '0.92');
+          if (style === 'dashed') {
+            p.setAttribute('stroke-dasharray', '6 5');
+          }
+          p.setAttribute('marker-end', 'url(#arrow)');
+          svg.appendChild(p);
+        });
+      }
+
+      window.addEventListener('resize', draw);
+      draw();
+
+      const info = document.createElement('div');
+      info.style.position = 'absolute';
+      info.style.right = '14px';
+      info.style.bottom = '10px';
+      info.style.background = 'rgba(255,255,255,0.85)';
+      info.style.border = '1px solid #d4d7dd';
+      info.style.borderRadius = '8px';
+      info.style.padding = '6px 9px';
+      info.style.fontSize = '12px';
+      info.style.color = '#5b6777';
+      info.textContent = 'Tip: v ramci panelu lze horizontalne i vertikalne scrollovat';
+      stage.appendChild(info);
+    })();
+  </script>
+</body>
+</html>

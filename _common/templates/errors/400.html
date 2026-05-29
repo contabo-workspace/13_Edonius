@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load lucide_tags %}
+
+{% block title %}Neplatný požadavek | Edonius{% endblock %}
+
+{% block content %}
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5 text-center">
+                    <div class="display-4 fw-bold text-warning mb-3">400</div>
+                    <h1 class="section-heading mb-3">{% lucide "triangle-alert" %}Neplatný požadavek</h1>
+                    <p class="text-muted mb-4">Požadavek se nepodařilo zpracovat. Zkontroluj adresu nebo to zkus znovu.</p>
+                    <div class="d-flex justify-content-center gap-2 flex-wrap">
+                        <a href="{% url 'dashboard:dashboard' %}" class="btn btn-primary">Zpět na nástěnku</a>
+                        <a href="javascript:history.back()" class="btn btn-outline-secondary">Zpět o krok</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

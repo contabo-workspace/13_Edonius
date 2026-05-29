@@ -5,16 +5,17 @@
 
 :root {
     /* --- Hlavní barvy – školní prostředí --- */
-    --color-primary:        #3b82f6;
-    --color-primary-hover:  #2563eb;
-    --color-secondary:      #10b981;
+    --color-primary:        #2563eb;
+    --color-primary-hover:  #1d4ed8;
+    --color-secondary:      #0f766e;
+    --color-secondary-hover:#0d5f59;
     --color-accent:         #f59e0b;
 
     /* --- Stavové barvy --- */
     --color-success:        #10b981;
     --color-warning:        #f59e0b;
     --color-danger:         #ef4444;
-    --color-info:           #0ea5e9;
+    --color-info:           #0284c7;
 
     /* --- Neutrální barvy --- */
     --color-bg:             #f1f5f9;
@@ -29,7 +30,7 @@
     --color-sidebar-hover:  #334155;
 
     /* --- Barevná mapa sekcí --- */
-    --section-dashboard:    #2563eb;
+    --section-dashboard:    #3b82f6;
     --section-maturity:     #f59e0b;
     --section-temataky:     #16a34a;
     --section-vykazy:       #e11d48;
@@ -40,6 +41,8 @@
     /* --- Bootstrap 5 přepsání přes vlastní CSS proměnné --- */
     --bs-primary:           var(--color-primary);
     --bs-secondary:         var(--color-secondary);
+    --bs-primary-rgb:       37, 99, 235;
+    --bs-secondary-rgb:     15, 118, 110;
     --bs-success:           var(--color-success);
     --bs-warning:           var(--color-warning);
     --bs-danger:            var(--color-danger);

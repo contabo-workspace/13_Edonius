@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load lucide_tags %}
+{% load bootstrap5 %}
+
+{% block title %}Vytvořit tematický plán | Edonius{% endblock %}
+
+{% block content %}
+<section class="container-fluid py-4 tp-form-shell">
+    <div class="tp-form-hero">
+        <div class="tp-form-title-row">
+            <h1 class="tp-form-title h3">{% lucide "sparkles" %} Nový tematický plán</h1>
+            <span class="badge text-bg-primary">Tématické plány</span>
+        </div>
+        
+    </div>
+
+    <div class="tp-form-content">
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="tp-form-grid">
+                <div class="tp-form-panel card">
+                    <div class="card-body">
+                        <h2 class="tp-panel-heading">{% lucide "file-text" %} Základní informace</h2>
+                        {% bootstrap_field form.nazev %}
+                        {% bootstrap_field form.obor_ve_skolnim_roce %}
+                        {% bootstrap_field form.predmet_ve_skolnim_roce %}
+                        {% if form.owner %}
+                            {% bootstrap_field form.owner %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="tp-form-panel card">
+                    <div class="card-body">
+                        <h2 class="tp-panel-heading">{% lucide "users" %} Přiřazení</h2>
+                        <div class="mb-3">
+                            <label class="form-label" for="id_ucitele">{{ form.ucitele.label }}</label>
+                            <div class="tp-checklist-wrap">
+                                <div class="tp-checklist" id="id_ucitele">
+                                    {% for teacher in form.ucitele %}
+                                        <label class="tp-check-item">{{ teacher.tag }}<span>{{ teacher.choice_label }}</span></label>
+                                    {% empty %}
+                                        <p class="tp-inline-note mb-0">Žádní aktivní učitelé k přiřazení.</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% if form.ucitele.errors %}
+                                <div class="invalid-feedback d-block">{{ form.ucitele.errors|join:", " }}</div>
+                            {% endif %}
+                            {% if form.ucitele.help_text %}
+                                <div class="form-text">{{ form.ucitele.help_text }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label" for="id_tridy">{{ form.tridy.label }}</label>
+                            <div class="tp-checklist-wrap tp-checklist-wrap-compact">
+                                <div class="tp-checklist tp-checklist-classes" id="id_tridy">
+                                    {% for school_class in form.tridy %}
+                                        <label class="tp-check-item">{{ school_class.tag }}<span>{{ school_class.choice_label }}</span></label>
+                                    {% empty %}
+                                        <p class="tp-inline-note mb-0">Žádné aktivní třídy k přiřazení.</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% if form.tridy.errors %}
+                                <div class="invalid-feedback d-block">{{ form.tridy.errors|join:", " }}</div>
+                            {% endif %}
+                            {% if form.tridy.help_text %}
+                                <div class="form-text">{{ form.tridy.help_text }}</div>
+                            {% endif %}
+                        </div>
+
+                        <p class="tp-inline-note">Výběr je klikací bez klávesových zkratek, vhodné i pro větší seznamy.</p>
+                    </div>
+                </div>
+
+                <div class="tp-form-panel card">
+                    <div class="card-body">
+                        <h2 class="tp-panel-heading">{% lucide "sliders-horizontal" %} Stav a popis</h2>
+                        {% bootstrap_field form.is_aktivni %}
+                        {% bootstrap_field form.popis %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="tp-form-actions">
+                <p class="tp-form-hint mb-0">Po uložení bude plán dostupný v seznamu tematických plánů.</p>
+                <div class="d-flex gap-2">
+                    <a href="{% url 'temataky:temataky' %}" class="btn btn-outline-secondary">Zrušit</a>
+                    <button type="submit" class="btn btn-primary d-inline-flex align-items-center gap-2">
+                        {% lucide "save" %}
+                        <span>Uložit plán</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

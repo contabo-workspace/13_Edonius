@@ -1,0 +1,29 @@
+{% load lucide_tags %}
+
+<div class="modal fade" id="deleteTematickyPlanModal-{{ plan.id }}" tabindex="-1" aria-labelledby="deleteTematickyPlanModalLabel-{{ plan.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title d-flex align-items-center gap-2" id="deleteTematickyPlanModalLabel-{{ plan.id }}">
+                    {% lucide "triangle-alert" %}
+                    Smazání tematického plánu
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-2">Opravdu chceš smazat tematický plán <strong>{{ plan.nazev }}</strong>?</p>
+                <p class="mb-0 text-muted">Tato akce je nevratná.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušit</button>
+                <form method="post" action="{{ delete_url }}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger d-inline-flex align-items-center gap-2">
+                        {% lucide "trash-2" %}
+                        Smazat
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

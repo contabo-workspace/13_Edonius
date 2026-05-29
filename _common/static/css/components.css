@@ -7,16 +7,16 @@
     --bs-btn-active-bg:    var(--color-primary-hover);
 }
 
-a,
-a:link,
-a:visited,
-a:hover,
-a:active {
-    color: var(--color-primary);
+.btn-secondary {
+    --bs-btn-bg:           var(--color-secondary);
+    --bs-btn-border-color: var(--color-secondary);
+    --bs-btn-hover-bg:     var(--color-secondary-hover);
+    --bs-btn-hover-border-color: var(--color-secondary-hover);
+    --bs-btn-active-bg:    var(--color-secondary-hover);
 }
 
 main {
-    background-color: white;
+    background-color: var(--color-surface);
 }
 
 .sidebar {
@@ -91,7 +91,7 @@ main {
 .sidebar-subnav a:focus-visible {
     background-color: rgba(59, 130, 246, 0.08);
     border-left-color: var(--color-primary);
-    color: white;
+    color: var(--color-primary-hover);
 }
 
 .sidebar .section-dashboard svg { color: var(--section-dashboard); }
@@ -102,6 +102,7 @@ main {
 .sidebar-subnav .section-maturity:hover,
 .sidebar-subnav .section-maturity:focus-visible {
     border-left-color: var(--section-maturity);
+    color: #b45309;
 }
 
 .section-heading {
@@ -130,11 +131,71 @@ main {
     transform: rotate(180deg);
 }
 
-.sidebar a:hover,
-.sidebar a:focus-visible {
+.sidebar > .sidebar-nav > li > a:hover,
+.sidebar > .sidebar-nav > li > a:focus-visible {
     background-color: var(--color-sidebar-hover);
 }
 
 svg {
     width: 1em;
+}
+
+.navbar-user-avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.navbar-school-year-pill {
+    font-size: 0.88rem;
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.navbar-school-year-pill svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.navbar-school-year-menu {
+    width: 280px;
+}
+
+.school-year-warning-bar {
+    background: linear-gradient(90deg, #fef3c7 0%, #fde68a 100%);
+    border-top: 1px solid #f59e0b;
+    border-bottom: 1px solid #f59e0b;
+    color: #78350f;
+    font-size: 0.95rem;
+}
+
+.school-year-warning-bar strong {
+    color: #7c2d12;
+}
+
+.app-message-alert {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+}
+
+.app-message-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    line-height: 1;
+}
+
+.app-message-icon svg {
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+.app-message-text {
+    font-size: 1.05rem;
+    line-height: 1.35;
 }

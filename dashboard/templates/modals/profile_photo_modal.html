@@ -1,0 +1,37 @@
+{% load bootstrap5 %}
+{% load lucide_tags %}
+
+<div class="modal fade" id="profilePhotoModal" tabindex="-1" aria-labelledby="profilePhotoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="profilePhotoModalLabel">Nastavit profilovou fotku</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+            </div>
+            <form method="post" action="{% url 'dashboard:settings-photo' %}" enctype="multipart/form-data" novalidate>
+                <div class="modal-body">
+                    <p class="text-muted small mb-3">Použij jasnou fotku obličeje. Ideálně čtverec 1:1.</p>
+                    <div class="crm-modal-preview-wrap mb-3">
+                        <div class="crm-modal-avatar-preview">
+                            {% if profile.photo %}
+                                <img src="{{ profile.photo.url }}" alt="Náhled profilové fotky" id="profilePhotoPreview">
+                            {% else %}
+                                <img src="" alt="Náhled profilové fotky" id="profilePhotoPreview" class="d-none">
+                            {% endif %}
+                            <div id="profilePhotoPreviewPlaceholder" class="crm-modal-avatar-placeholder {% if profile.photo %}d-none{% endif %}">
+                                {% lucide "user" %}
+                            </div>
+                        </div>
+                        <p id="profilePhotoFilename" class="small text-muted mb-0">Zatím není vybraný nový soubor.</p>
+                    </div>
+                    {% csrf_token %}
+                    {% bootstrap_form photo_form %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Zrušit</button>
+                    <button type="submit" class="btn btn-primary">Uložit fotku</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

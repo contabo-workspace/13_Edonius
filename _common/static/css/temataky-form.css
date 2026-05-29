@@ -1,0 +1,184 @@
+.tp-form-shell {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tp-form-hero {
+    border: 1px solid rgba(37, 99, 235, 0.18);
+    border-radius: 18px;
+    background:
+        radial-gradient(circle at 10% -10%, rgba(59, 130, 246, 0.2), transparent 55%),
+        radial-gradient(circle at 95% 120%, rgba(15, 118, 110, 0.15), transparent 52%),
+        linear-gradient(165deg, #f8fbff 0%, #eef5ff 55%, #f4fffc 100%);
+    padding: 20px;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+
+.tp-form-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.tp-form-title {
+    margin: 0;
+    color: #0f172a;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tp-form-subtitle {
+    margin: 0;
+    color: var(--color-text-muted);
+}
+
+.tp-form-content {
+    margin-top: 18px;
+}
+
+.tp-form-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+}
+
+.tp-form-panel {
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+}
+
+.tp-form-panel .card-body {
+    padding: 1rem 1.15rem;
+}
+
+.tp-panel-heading {
+    margin: 0 0 10px;
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
+    color: #0f172a;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tp-form-panel .form-label {
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.35rem;
+}
+
+.tp-form-panel .form-control,
+.tp-form-panel .form-select {
+    border-color: #cbd5e1;
+}
+
+.tp-form-panel .form-control:focus,
+.tp-form-panel .form-select:focus {
+    border-color: rgba(37, 99, 235, 0.55);
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.14);
+}
+
+.tp-checklist-wrap {
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    background: #f8fafc;
+    padding: 10px;
+    max-height: 290px;
+    overflow: auto;
+}
+
+.tp-checklist-wrap-compact {
+    max-height: 220px;
+}
+
+.tp-checklist {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.tp-checklist-classes {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.tp-check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0;
+    font-size: 0.92rem;
+    color: #0f172a;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.tp-check-item:hover {
+    border-color: rgba(37, 99, 235, 0.45);
+    background: #eff6ff;
+}
+
+.tp-check-item input[type="checkbox"] {
+    margin-top: 0.15rem;
+    accent-color: var(--color-primary);
+}
+
+.tp-form-panel .form-text {
+    color: #64748b;
+}
+
+.tp-form-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 8;
+    margin-top: 16px;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(6px);
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.07);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.tp-form-actions .btn {
+    min-width: 140px;
+}
+
+.tp-form-hint {
+    font-size: 0.9rem;
+    color: #475569;
+}
+
+.tp-inline-note {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 992px) {
+    .tp-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tp-form-shell {
+        max-width: 100%;
+    }
+
+    .tp-checklist,
+    .tp-checklist-classes {
+        grid-template-columns: 1fr;
+    }
+}

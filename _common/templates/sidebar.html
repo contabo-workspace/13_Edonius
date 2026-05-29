@@ -26,6 +26,28 @@
             </ul>
         </div>
     </li>
-    <li><a href="{% url 'temataky:temataky' %}" class="section-temataky">{% lucide "book-open" class="me-2" %} Tématické plány</a></li>
+    <li>
+        {% if can_manage_all_temataky %}
+            <button class="sidebar-toggle section-temataky d-flex align-items-center justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#tematakyMenu" aria-expanded="false" aria-controls="tematakyMenu">
+                <span>{% lucide "book-open" class="me-2" %} Tématické plány</span>
+                <span class="d-inline-flex ms-2 sidebar-chevron" aria-hidden="true">{% lucide "chevron-down" %}</span>
+            </button>
+            <div class="collapse" id="tematakyMenu">
+                <ul class="sidebar-subnav list-group list-group-flush mt-2 overflow-hidden bg-light">
+                    <li class="list-group-item p-0">
+                        <a href="{% url 'temataky:temataky' %}" class="section-temataky d-block px-3 py-2">
+                            {% lucide "user-round" class="me-2" %} Moje TP</a>
+                    </li>
+                    <li class="list-group-item p-0">
+                        <a href="{% url 'temataky:temataky-garant-overview' %}" class="section-temataky d-block px-3 py-2">
+                            {% lucide "table-properties" class="me-2" %} Přehled TP</a>
+                    </li>
+                </ul>
+            </div>
+        {% else %}
+            <a href="{% url 'temataky:temataky' %}" class="section-temataky">
+                {% lucide "book-open" class="me-2" %} Tématické plány</a>
+        {% endif %}
+    </li>
     <li><a href="{% url 'vykazy:vykazy' %}" class="section-vykazy">{% lucide "clock" class="me-2" %} Výkazy</a></li>
 </ul>

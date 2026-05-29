@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load lucide_tags %}
+{% load bootstrap5 %}
+
+{% block title %}Přihlášení | Edonius{% endblock %}
+
+{% block content %}
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-5">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <h1 class="section-heading mb-0">{% lucide "log-in" %}Přihlášení</h1>
+                    </div>
+                    <p class="text-muted mb-4">Přihlas se svým uživatelským jménem a heslem.</p>
+
+                    {% if form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            Přihlášení se nezdařilo. Zkontroluj uživatelské jméno a heslo.
+                        </div>
+                    {% endif %}
+
+                    {% if next and not request.user.is_authenticated %}
+                        <div class="alert alert-warning" role="alert">
+                            Pro zobrazení požadované stránky je potřeba se nejdřív přihlásit.
+                        </div>
+                    {% endif %}
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        <input type="hidden" name="next" value="{{ next|default:'' }}">
+                        <div class="d-flex gap-2 mt-3">
+                            <button type="submit" class="btn btn-primary d-inline-flex align-items-center gap-2">
+                                {% lucide "log-in" %}
+                                <span>Přihlásit se</span>
+                            </button>
+                            <a href="{% url 'dashboard:dashboard' %}" class="btn btn-outline-secondary">Zpět</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

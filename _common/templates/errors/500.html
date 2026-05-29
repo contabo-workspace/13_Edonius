@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load lucide_tags %}
+
+{% block title %}Chyba serveru | Edonius{% endblock %}
+
+{% block content %}
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5 text-center">
+                    <div class="display-4 fw-bold text-danger mb-3">500</div>
+                    <h1 class="section-heading mb-3">{% lucide "triangle-alert" %}Chyba serveru</h1>
+                    <p class="text-muted mb-4">Na serveru došlo k neočekávané chybě. Zkus to prosím znovu za chvíli.</p>
+                    <div class="d-flex justify-content-center gap-2 flex-wrap">
+                        <a href="{% url 'dashboard:dashboard' %}" class="btn btn-primary">Zpět na nástěnku</a>
+                        <a href="javascript:location.reload()" class="btn btn-outline-secondary">Zkusit znovu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

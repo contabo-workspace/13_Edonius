@@ -1,29 +1,92 @@
 
+{% load lucide_tags %}
 <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#" style="width: 280px;">Edonius</a>
+    <a class="navbar-brand" href="{% url 'dashboard:dashboard' %}" style="width: 280px;">{% lucide "book-text"%} Edonius</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Rozvrh</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Testy
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-      </ul>
-      <div class="d-flex">
-        <button class="btn btn-outline-success" type="submit">Přihlásit se</button>
+      {% if request.user.is_authenticated %}
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Rozvrh</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Testy
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+        </ul>
+      {% else %}
+        <div class="me-auto"></div>
+      {% endif %}
+      <div class="d-flex align-items-center gap-2">
+        {% if request.user.is_authenticated %}
+          <div class="dropdown">
+            <button class="btn btn-outline-light d-inline-flex align-items-center gap-2 navbar-school-year-pill dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {% lucide "calendar-days" %}
+              <span>Školní rok: <strong>{{ effective_school_year.name|default:"nenastaven" }}</strong></span>
+              {% if school_year_override_active %}
+                <span class="badge text-bg-warning text-dark">{% lucide "triangle-alert" %}</span>
+              {% endif %}
+            </button>
+            {% if can_override_school_year %}
+              <div class="dropdown-menu dropdown-menu-end p-3 navbar-school-year-menu">
+                <form method="post" action="{% url 'school-year-switch' %}" class="mb-0">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                  <label for="schoolYearSelect" class="form-label small mb-1">Přepnout pracovní rok</label>
+                  <select id="schoolYearSelect" name="school_year_id" class="form-select form-select-sm mb-2">
+                    <option value="" {% if not school_year_override_active %}selected{% endif %}>Aktuální: {{ global_active_school_year.name|default:"nenastaven" }}</option>
+                    {% for school_year in available_school_years %}
+                      <option value="{{ school_year.id }}" {% if school_year_override_active and effective_school_year and school_year.id == effective_school_year.id %}selected{% endif %}>{{ school_year.name }}</option>
+                    {% endfor %}
+                  </select>
+                  <button type="submit" class="btn btn-primary btn-sm w-100">Použít</button>
+                </form>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if request.user.is_authenticated %}
+          <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle d-inline-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {% if navbar_profile_photo_url %}
+                <img src="{{ navbar_profile_photo_url }}" alt="Profilová fotka" class="navbar-user-avatar">
+              {% else %}
+                {% lucide "circle-user" %}
+              {% endif %}
+              <span>{{ request.user.get_full_name|default:request.user.username }}</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a class="dropdown-item" href="{% url 'dashboard:settings' %}">Nastavení</a>
+              </li>
+              {% if request.user.is_superuser %}
+                <li>
+                  <a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
+                </li>
+              {% endif %}
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <form method="post" action="{% url 'logout' %}" class="mb-0">
+                  {% csrf_token %}
+                  <button class="dropdown-item" type="submit">Odhlásit</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        {% else %}
+          <a href="{% url 'login' %}" class="btn btn-outline-dark" target="_blank">Přihlásit se</a>
+        {% endif %}
       </div>
     </div>
   </div>

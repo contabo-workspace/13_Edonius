@@ -1,0 +1,71 @@
+{% load lucide_tags %}
+
+{% if plany %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">Název</th>
+                    <th scope="col">Školní rok</th>
+                    <th scope="col">Obor</th>
+                    <th scope="col">Předmět</th>
+                    <th scope="col">Třídy</th>
+                    <th scope="col">Vlastník</th>
+                    <th scope="col" class="text-center">Počet hodin</th>
+                    <th scope="col" class="text-center">Počet témat</th>
+                    <th scope="col" class="text-center">Počet tříd</th>
+                    <th scope="col">Učitelé</th>
+                    <th scope="col" class="text-end">Akce</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for plan in plany %}
+                    <tr>
+                        <td>{{ plan.nazev }}</td>
+                        <td>{{ plan.predmet_ve_skolnim_roce.school_year }}</td>
+                        <td>
+                            {% if plan.obor_ve_skolnim_roce %}
+                                {{ plan.obor_ve_skolnim_roce.zkratka }} - {{ plan.obor_ve_skolnim_roce.nazev }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>{{ plan.predmet_ve_skolnim_roce.name }}</td>
+                        <td>{{ plan.tridy_display }}</td>
+                        <td>{{ plan.owner.get_full_name|default:plan.owner.username }}</td>
+                        <td class="text-center">{{ plan.pocet_hodin }}</td>
+                        <td class="text-center">{{ plan.pocet_temat }}</td>
+                        <td class="text-center">{{ plan.pocet_trid }}</td>
+                        <td>{{ plan.ucitele_zkratky }}</td>
+                        <td>
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="button" class="btn btn-sm btn-outline-primary" title="Detail doplníme v dalším kroku.">
+                                    {% lucide "eye" %}
+                                </button>
+                                <a href="{% url 'temataky:temataky-edit' plan.id %}" class="btn btn-sm btn-outline-secondary" title="Upravit tematický plán">
+                                    {% lucide "pencil" %}
+                                </a>
+                                {% if can_manage_all or plan.owner_id == request.user.id %}
+                                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteTematickyPlanModal-{{ plan.id }}" title="Smazat tematický plán">
+                                        {% lucide "trash-2" %}
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% for plan in plany %}
+        {% if can_manage_all or plan.owner_id == request.user.id %}
+            {% url 'temataky:temataky-delete' plan.id as delete_url %}
+            {% include "modals/delete_tematicky_plan.html" with plan=plan delete_url=delete_url %}
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <div class="alert alert-info mb-0" role="alert">
+        {{ empty_message|default:"Momentálně nejsou k dispozici žádné tematické plány." }}
+    </div>
+{% endif %}
